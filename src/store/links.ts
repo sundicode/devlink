@@ -117,7 +117,7 @@ const useLinksStore = defineStore("uselink", () => {
       colorCode: "#1AB7EA", // Vimeo blue
     },
   ]);
-  const userLinks = ref<UserLinkInterface[]>([
+  let userLinks = ref<UserLinkInterface[]>([
     {
       id: 1,
       platform: {
@@ -128,17 +128,28 @@ const useLinksStore = defineStore("uselink", () => {
       link: "",
     },
   ]);
-  const addLink = () => {};
-  const updateLink = (links: UserLinkInterface[]) => {
-    userLinks.value = links;
-  };
-  const removeLink = (id: number) => {
-    userLinks.value = userLinks.value.filter((val) => val.id !== id);
-    watch(userLinks, (oldvalue, newValue) => {
-      updateLink(newValue);
+
+  const addLink = () => {
+    userLinks.value.push({
+      id: Date.now(),
+      platform: { icon: "", colorCode: "", name: "" },
+      link: "",
     });
   };
+  const removeLink = (id: number) => {
+    const index = userLinks.value.findIndex((link) => link.id === id);
+    if (index !== -1) {
+      userLinks.value.splice(index, 1);
+    }
+  };
 
-  return { links, addLink, removeLink, userLinks, updateLink };
+  const updateLink = (id: number, updatedLink: Partial<UserLinkInterface>) => {
+    const index = userLinks.value.findIndex((link) => link.id === id);
+    if (index !== -1) {
+      userLinks.value[index] = { ...userLinks.value[index], ...updatedLink };
+    }
+  };
+
+  return { links, addLink, updateLink, removeLink, userLinks };
 });
 export default useLinksStore;

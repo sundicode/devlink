@@ -1,5 +1,5 @@
 <template>
-  <div class="container min-h-screen bg-gray-100 py-4">
+  <div class="min-h-screen py-4 mx-auto container">
     <nav
       class="rounded-sm w-full p-4 bg-white flex items-center justify-between mb-6"
     >
@@ -10,7 +10,7 @@
         />
         <h1 class="font-bold text-[20px]">devlinks</h1>
       </div>
-      <div class="flex gap-x-5">
+      <div class="gap-x-5 hidden lg:flex">
         <RouterLink to="/">
           <button
             class="py-2 px-4 rounded flex gap-x-1 items-center font-semibold text-gray-600"
@@ -28,51 +28,93 @@
           </button>
         </RouterLink>
       </div>
-      <RouterLink to="/preview">
-        <button
-          class="py-2 px-3 rounded border border-purple-600 font-semibold text-purple-600"
-        >
-          Preview
+      <div class="flex items-center">
+        <RouterLink to="/preview" class="hidden lg:block">
+          <button
+            class="py-2 px-3 rounded border border-purple-600 font-semibold text-purple-600"
+          >
+            Preview
+          </button>
+        </RouterLink>
+        <button @click="toggleMobileMenu" class="lg:hidden">
+          <Icon icon="mdi:menu" class="text-[24px] text-gray-600" />
         </button>
-      </RouterLink>
+      </div>
+      <div
+        v-if="mobileMenuOpen"
+        class="lg:hidden absolute top-16 left-0 w-full bg-white shadow-md rounded-b-sm"
+      >
+        <RouterLink to="/" @click="toggleMobileMenu">
+          <button
+            class="py-2 px-4 w-full text-left font-semibold text-gray-600 border-b border-gray-200"
+          >
+            <Icon icon="flowbite:link-solid" class="text-[16px] font-bold" />
+            <span>links</span>
+          </button>
+        </RouterLink>
+        <RouterLink to="/profile" @click="toggleMobileMenu">
+          <button
+            class="py-2 px-4 w-full text-left font-semibold text-gray-600 border-b border-gray-200"
+          >
+            <Icon icon="iconamoon:profile-circle" class="text-[16px]" />
+            <span>Profile Detail</span>
+          </button>
+        </RouterLink>
+        <RouterLink to="/preview" @click="toggleMobileMenu">
+          <button
+            class="py-2 px-4 w-full text-left font-semibold text-purple-600 border-b border-gray-200"
+          >
+            Preview
+          </button>
+        </RouterLink>
+      </div>
     </nav>
     <div class="md:flex gap-7">
       <div
-        class="bg-white md:w-[40%] min-h-[85vh] flex items-center justify-center"
+        class="bg-white md:w-[40%] h-[85vh] flex items-center justify-center md:px-24 px-5 md:py-10 py-3"
       >
-        <div class="w-[45%] relative">
-          <img src="/phone-3.png" alt="phone" class="w-full" />
+        <div
+          class="w-full border-2 border-gray-800 rounded-[40px] md:p-5 p-3 h-full"
+        >
           <div
-            class="absolute inset-0 py-12 flex flex-col justify-start items-center w-full"
+            class="w-full border-2 border-gray-800 rounded-[50px] md:p-5 p-3 h-full"
           >
-            <div class="w-full flex items-center flex-col gap-y-3 mb-10 mt-10">
-              <div class="w-[90px] h-[90px] rounded-full bg-gray-50"></div>
-              <div class="bg-gray-100 p-2 rounded-[30px] w-[70%] mx-auto"></div>
-              <div class="bg-gray-100 p-1 rounded-[30px] w-[40%] mx-auto"></div>
-            </div>
-
-            <div class="w-full p-8 flex flex-col gap-y-2 overflow-y-scroll">
+            <div class="">
               <div
-                class="w-full p-4 rounded-lg bg-gray-100"
-                v-for="(link, i) of userLinks"
-                :key="i"
-                :style="{
-                  background: link.platform.colorCode,
-                  color: 'white',
-                }"
+                class="w-full flex items-center flex-col gap-y-3 mb-10 mt-10"
               >
-                <RouterLink :to="link.link">
-                  <div class="flex justify-between items-center">
-                    <div class="flex gap-x-2">
-                      <Icon :icon="link.platform.icon" class="text-[20px]" />
-                      <p class="font-semibold">{{ link.platform.name }}</p>
+                <div class="w-[90px] h-[90px] rounded-full bg-gray-50"></div>
+                <div
+                  class="bg-gray-100 p-2 rounded-[30px] w-[70%] mx-auto"
+                ></div>
+                <div
+                  class="bg-gray-100 p-1 rounded-[30px] w-[40%] mx-auto"
+                ></div>
+              </div>
+
+              <div class="w-full p-8 flex flex-col gap-y-2 overflow-y-scroll">
+                <div
+                  class="w-full p-4 rounded-lg bg-gray-100"
+                  v-for="(link, i) of userLinks"
+                  :key="i"
+                  :style="{
+                    background: link.platform.colorCode,
+                    color: 'white',
+                  }"
+                >
+                  <RouterLink :to="link.link">
+                    <div class="flex justify-between items-center">
+                      <div class="flex gap-x-2">
+                        <Icon :icon="link.platform.icon" class="text-[20px]" />
+                        <p class="font-semibold">{{ link.platform.name }}</p>
+                      </div>
+                      <Icon
+                        icon="flowbite:arrow-right-solid"
+                        class="text-[20px]"
+                      />
                     </div>
-                    <Icon
-                      icon="flowbite:arrow-right-solid"
-                      class="text-[20px]"
-                    />
-                  </div>
-                </RouterLink>
+                  </RouterLink>
+                </div>
               </div>
             </div>
           </div>
@@ -89,16 +131,26 @@
 import { Icon } from "@iconify/vue/dist/iconify.js";
 import { RouterView } from "vue-router";
 import useLinksStore from "../store/links";
+import { ref } from "vue";
 
 const { userLinks } = useLinksStore();
+
+const mobileMenuOpen = ref(false);
+
+const toggleMobileMenu = () => {
+  mobileMenuOpen.value = !mobileMenuOpen.value;
+};
 </script>
 
-<style scoped>
+<style>
 a.router-link-exact-active button {
   @apply text-purple-600 bg-purple-100 rounded;
 }
 .overflow-y-scroll::-webkit-scrollbar {
   display: none;
+}
+body {
+  @apply bg-gray-100;
 }
 
 /* Hide scrollbar for IE/Edge */

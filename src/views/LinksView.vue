@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="font-bold text-[2.4rem] text-gray-800 mb-1">
+    <h1 class="font-bold text-[2.4rem] text-gray-600 mb-1">
       Customize your links
     </h1>
     <p class="text-gray-400 mb-10">
@@ -24,7 +24,7 @@
             <Icon icon="material-symbols-light:equal" class="text-gray-700" />
             #Link {{ i + 1 }}
           </div>
-          <button class="text-gray-500" @click="removeUserLink(userLink.id)">
+          <button class="text-gray-500" @click="removeLink(userLink.id)">
             remove
           </button>
         </div>
@@ -63,33 +63,26 @@
       </div>
     </div>
     <hr />
-    <button @click="saveSetting">Save</button>
+    <button
+      @click="saveSetting"
+      class="py-3 px-10 bg-purple-500 rounded text-xl font-bold my-3 text-white w-full"
+    >
+      Save
+    </button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Icon } from "@iconify/vue/dist/iconify.js";
+import { Icon } from "@iconify/vue";
 import useLinksStore from "../store/links";
-import { watch } from "vue";
-const { links, userLinks, updateLink, removeLink } = useLinksStore();
+const { links, userLinks, removeLink, addLink } = useLinksStore();
+console.log(userLinks);
+
 const saveSetting = () => {
   console.log(userLinks);
 };
-
-watch(userLinks, (oldvalue, newvalue) => {
-  updateLink(newvalue);
-});
-const addLink = () => {
-  userLinks.push({
-    id: Math.random() * 5000,
-    platform: { icon: "", colorCode: "", name: "" },
-    link: "",
-  });
-};
-
-const removeUserLink = (name: string) => {
-  removeLink(name);
-};
 </script>
 
-<style scoped></style>
+<style scoped>
+/* Add your styles here */
+</style>
