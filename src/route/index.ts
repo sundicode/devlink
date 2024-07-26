@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from "vue-router";
 import LinksViewVue from "../views/LinksView.vue";
 import ProfileViewVue from "../views/ProfileView.vue";
 import UsersLayoutVue from "../views/UsersLayout.vue";
+import PreviewViewVue from "../views/PreviewView.vue";
 
 const routes = [
   {
@@ -24,7 +25,7 @@ const routes = [
   {
     name: "preview",
     path: "/preview",
-    component: ProfileViewVue,
+    component: PreviewViewVue,
   },
 ];
 const router = createRouter({
