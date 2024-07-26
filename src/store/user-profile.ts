@@ -1,16 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-interface UserLinkInterface {
-  id: number;
-  platform: {
-    name: string;
-    icon: string;
-    colorCode: string;
-  };
-  link: string;
-}
-
 interface UserProfile {
   firstName: string;
   lastName: string;
