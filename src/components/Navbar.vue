@@ -9,7 +9,7 @@
     <div class="gap-x-5 hidden lg:flex">
       <RouterLink to="/">
         <button
-          class="py-2 px-4 rounded flex gap-x-1 items-center font-semibold text-gray-600"
+          class="py-2 md:px-4 rounded flex gap-x-1 items-center font-semibold text-gray-600"
         >
           <Icon icon="flowbite:link-solid" class="text-[16px] font-bold" />
           <span>links</span>
@@ -42,7 +42,7 @@
     >
       <RouterLink to="/" @click="toggleMobileMenu">
         <button
-          class="py-2 px-4 w-full text-left font-semibold text-gray-600 border-b border-gray-200"
+          class="py-2 px-4 w-full text-left font-semibold text-gray-600 border-b border-gray-200 flex"
         >
           <Icon icon="flowbite:link-solid" class="text-[16px] font-bold" />
           <span>links</span>
@@ -50,7 +50,7 @@
       </RouterLink>
       <RouterLink to="/profile" @click="toggleMobileMenu">
         <button
-          class="py-2 px-4 w-full text-left font-semibold text-gray-600 border-b border-gray-200"
+          class="py-2 px-4 w-full text-left font-semibold text-gray-600 border-b border-gray-200 flex"
         >
           <Icon icon="iconamoon:profile-circle" class="text-[16px]" />
           <span>Profile Detail</span>
@@ -58,7 +58,7 @@
       </RouterLink>
       <RouterLink to="/preview" @click="toggleMobileMenu">
         <button
-          class="py-2 px-4 w-full text-left font-semibold text-purple-600 border-b border-gray-200"
+          class="py-2 px-4 w-full text-left font-semibold text-purple-600 border-b border-gray-200 flex"
         >
           Preview
         </button>
